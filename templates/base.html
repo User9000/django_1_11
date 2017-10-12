@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+    <head>
+
+    </head>
+
+    <body>
+            <h1>hello world</h1>
+             <p>This {{ html_var }} coming through</p>
+             <p>
+                {% if bool_item %} 
+                    This {{ num }} num
+                {%  endif %}
+                </p>
+                <p>
+                        {% for some_item in some_list %} 
+                            {{ some_item }}
+                            {% if some_item|divisibleby:"2" %}
+                                <p>It is divisible by 2 {{ some_item }}</p>
+                            {% endif %}
+                         {%  endfor %}
+                        </p>
+                <p>Some item is {{ some_item }}</p>
+                        
+    </body>
+</html>
