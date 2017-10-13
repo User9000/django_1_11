@@ -13,6 +13,22 @@ def home(request):
         "num": num,
         "some_list":some_list
     }
-    return render(request, "base.html", context) #response
+    return render(request, "home.html", context) #response
+
+
+
+def home2(request):
+    
+    context = {
+
+    }
+    return render(request, "home2.html", context) #response
+
+def home3(request):
+    
+    context = {
+       
+    }
+    return render(request, "home3.html", context) #response
 
 
