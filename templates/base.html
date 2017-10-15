@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html>
     <head>
-
+        <title>{% block head_title %} MuyPicky.com {% endblock head_title %}</title>
     </head>
-
+    {% include 'snippets/css.html' %}
     <body>
-            <h1>MuyPicky.com</h1>
-            <h1>hello world</h1>
+            
+
+            {% include "snippets/nav.html" %}
         <div class='container'>
         {% block content %}
 
@@ -14,5 +15,6 @@
 
         {% endblock %}    
         </div>       
+       {% include 'snippets/js.html' %}
     </body>
 </html>
