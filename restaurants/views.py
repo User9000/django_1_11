@@ -20,9 +20,4 @@ class HomeView(TemplateView):
         print(context)
         return context
 
-class AboutView(TemplateView):
-    template_name="about.html"
 
-
-class ContactView(TemplateView):
-    template_name="contact.html"
