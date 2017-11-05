@@ -11,21 +11,23 @@ from .forms import RestaurantCreateForm
 
 
 def restaurant_createview(request):
-    if request.method == "POST":
-        title = request.POST.get("title")
-        location = request.POST.get("location")
-        category = request.POST.get("category")
-        obj  = RestaurantLocation.objects.create(
-                name=title, 
-                location = location, 
-                category = category
-                )
-        return HttpResponseRedirect('/restaurants/')
+        forms = RestaurantCreateForm()
+        if request.method == "POST":
+            form = RestaurantCreateForm(request.POST)
+            if form.is_valid():
+                obj  = RestaurantLocation.objects.create(
+                            name = form.cleaned_data.get('name'),
+                            location = form.cleaned_data.get('location'),
+                            category = form.cleaned_data.get('category')
+                        )
+            if form.errors:
+                print(form.errors)
 
-    template_name = 'restaurants/forms.html'
 
-    context = {}
-    return render(request,template_name, context)
+        template_name = 'restaurants/forms.html'
+
+        context = { "form": forms }
+        return render(request,template_name, context)
 # Create your views here.
 def restaurant_listview(request):
     template_name = "restaurants/restaurants_list.html"
