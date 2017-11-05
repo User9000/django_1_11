@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from restaurants.views import restaurant_listview, RestaurantListView, RestaurantDetailView, restaurant_createview
+from restaurants.views import restaurant_listview, ResturantCreateView,  RestaurantListView, RestaurantDetailView, restaurant_createview
 from django.views.generic import TemplateView
 
 urlpatterns = [
@@ -26,7 +26,7 @@ urlpatterns = [
 
     url(r'^restaurants/$', RestaurantListView.as_view()),
 
-    url(r'^restaurants/create/$',restaurant_createview),
+    url(r'^restaurants/create/$',ResturantCreateView.as_view()),
 
     url(r'^restaurants/(?P<slug>[\w-]+)/$', RestaurantDetailView.as_view()),
 

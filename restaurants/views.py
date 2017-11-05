@@ -1,30 +1,23 @@
-
-
 from django.db.models import Q
 from django.shortcuts import render, get_object_or_404
 
 from django.http import HttpResponse,HttpResponseRedirect
 from django.views import View
-from django.views.generic import TemplateView, ListView, DetailView
+from django.views.generic import TemplateView, ListView, DetailView, CreateView
 from .models import RestaurantLocation
-from .forms import RestaurantCreateForm
+from .forms import RestaurantCreateForm, RestaurantLocationCreateForm
 
 
 def restaurant_createview(request):
-        forms = RestaurantCreateForm()
+        form = RestaurantLocationCreateForm(request.POST or None)
         errors = None
-        if request.method == "POST":
-            form = RestaurantCreateForm(request.POST)
-            if form.is_valid():
-                obj  = RestaurantLocation.objects.create(
-                            name = form.cleaned_data.get('name'),
-                            location = form.cleaned_data.get('location'),
-                            category = form.cleaned_data.get('category')
-                        )
-            if form.errors:
+        if form.is_valid():
+                form.save()
+                return HttpResponseRedirect("/restaurants/")
+        if form.errors:
                errors = form.errors
         template_name = 'restaurants/forms.html'
-        context = { "form": forms, "error": errors }
+        context = { "form": form, "error": errors }
         return render(request,template_name, context)
 
 
@@ -63,3 +56,9 @@ def restaurant_detailview(request, slug):
         "object": obj,
     }
     return render(request, template_name, context)
+
+
+class ResturantCreateView(CreateView):
+    form_class = RestaurantLocationCreateForm
+    template_name = "restaurants/forms.html"
+    success_url = "/restaurants/"
