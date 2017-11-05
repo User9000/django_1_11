@@ -12,6 +12,7 @@ from .forms import RestaurantCreateForm
 
 def restaurant_createview(request):
         forms = RestaurantCreateForm()
+        errors = None
         if request.method == "POST":
             form = RestaurantCreateForm(request.POST)
             if form.is_valid():
@@ -21,13 +22,12 @@ def restaurant_createview(request):
                             category = form.cleaned_data.get('category')
                         )
             if form.errors:
-                print(form.errors)
-
-
+               errors = form.errors
         template_name = 'restaurants/forms.html'
-
-        context = { "form": forms }
+        context = { "form": forms, "error": errors }
         return render(request,template_name, context)
+
+
 # Create your views here.
 def restaurant_listview(request):
     template_name = "restaurants/restaurants_list.html"

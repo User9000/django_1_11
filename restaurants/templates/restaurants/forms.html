@@ -7,8 +7,13 @@
 
 <h1>Add Restaurant</h1>
 
-<form method='POST'> {% csrf_token %}
+{% if error %}
 
+{{ error }}
+
+{% endif %}
+<form method='POST'> {% csrf_token %}
+    
     {{ form.as_p }}
     <button type='Submit'>Saved</button>
 
