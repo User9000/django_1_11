@@ -1,3 +1,8 @@
+
+
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+
 from django.db.models import Q
 from django.shortcuts import render, get_object_or_404
 
@@ -8,12 +13,21 @@ from .models import RestaurantLocation
 from .forms import RestaurantCreateForm, RestaurantLocationCreateForm
 
 
+
+##function based view
+@login_required(login_url='/login/')
 def restaurant_createview(request):
         form = RestaurantLocationCreateForm(request.POST or None)
         errors = None
         if form.is_valid():
-                form.save()
+            if request.user.is_authenticated():
+                instance = form.save(commit=False)
+                instance.owner = request.user
+                instance.save()
+                #form.save()
                 return HttpResponseRedirect("/restaurants/")
+            else:
+                return HttpResponseRedirect("/login/")
         if form.errors:
                errors = form.errors
         template_name = 'restaurants/forms.html'
@@ -37,10 +51,10 @@ class RestaurantListView(ListView):
         slug = self.kwargs.get('slug')
         if slug:
             queryset = RestaurantLocation.objects.filter(Q(category__iexact = slug) | Q(category__icontains = slug))
-            print("we did it")
+            #print("we did it")
         else:
             queryset = RestaurantLocation.objects.all()
-            print("we did not")
+            #print("we did not")
 
         return queryset
 
@@ -58,7 +72,14 @@ def restaurant_detailview(request, slug):
     return render(request, template_name, context)
 
 
-class ResturantCreateView(CreateView):
+class ResturantCreateView(LoginRequiredMixin,CreateView):
     form_class = RestaurantLocationCreateForm
     template_name = "restaurants/forms.html"
     success_url = "/restaurants/"
+    login_url = "/login/"
+
+    def form_valid(self, form):
+         instance = form.save(commit=False)
+         instance.owner = self.request.user
+         #instance.save()
+         return super(ResturantCreateView, self).form_valid(form)
