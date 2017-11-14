@@ -13,12 +13,14 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import url
+from django.conf.urls import url, include
 from django.contrib import admin
 from restaurants.views import restaurant_listview, ResturantCreateView,  RestaurantListView, RestaurantDetailView, restaurant_createview
 from django.views.generic import TemplateView
 
 from django.contrib.auth.views import LoginView, PasswordResetView
+
+
 
 urlpatterns = [
 
@@ -27,12 +29,9 @@ urlpatterns = [
     url(r'^login/', LoginView.as_view(), name = 'login'),
     url(r'^login/', PasswordResetView.as_view(),name='password_reset'),
     url(r'^about/',TemplateView.as_view(template_name="about.html"),name='about'),
-    url(r'^restaurants/$', RestaurantListView.as_view(),name='restaurants'),
-    url(r'^restaurants/create/$',ResturantCreateView.as_view(),name='restaurants-create'),
-    #url(r'^restaurants/create/$',restaurant_createview),
-    url(r'^restaurants/(?P<slug>[\w-]+)/$', RestaurantDetailView.as_view(), name='restaurant-detail'),
+    url(r'^restaurants/', include('restaurants.urls', namespace='restaurants')),
     url(r'^contact/$', TemplateView.as_view(template_name="contact.html"),name='contact'),
-    #url(r'^$', TemplateView.as_view(template_name="home.html")),
+
     
  ]
 
