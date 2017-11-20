@@ -3,7 +3,7 @@
 {% block content %}
 
     <h1>{{ object.name }}</h1>
-    <h1>{{ object.restaurant.name }}</h1>
+    <h2>Location: {{ object.restaurant.name }}</h2>
 
      <li><a href='{{ obj.get_absolute_url }}'></a><br/>
        {% if object.contents %}

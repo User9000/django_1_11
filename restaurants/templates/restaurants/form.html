@@ -1,11 +1,11 @@
 {% extends "base.html" %}
 
-{% block head_title %} Restaurants | {{ block.super }} {% endblock head_title %}
+{% block head_title %} {{ title }} | {{ block.super }} {% endblock head_title %}
 
 
 {% block content %}
 
-<h1>Add Restaurant</h1>
+<h1>{{ title }} </h1>
 
 {% if form.error.non_field_errors %}
 

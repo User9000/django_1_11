@@ -5,11 +5,11 @@ from django import forms
 from .models import Item
 
 class ItemForm(forms.ModelForm):
-    class Mete:
+    class Meta:
         model = Item
-        field =[
-            'name',
+        fields =[
             'restaurant',
+            'name',
             'contents',
             'excludes',
             'public',

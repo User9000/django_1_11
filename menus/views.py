@@ -18,11 +18,30 @@ class ItemDetailView(DetailView):
 
 
 class ItemCreateView(CreateView):
+    template_name = "form.html"
+    form_class = ItemForm
+
+    def get_queryset(self):
+        return Item.objects.filter(user=self.request.user)
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(ItemCreateView, self).get_context_data(*args, **kwargs)
+        context['title'] = 'Create Item'
+        return context
+    
+    def form_valid(self, form):
+        obj = form.save(commit=False)
+        obj.user = self.request.user
+        return super(ItemCreateView, self).form_valid(form)
+
+
+class ItemUpdateView(UpdateView):
+    template_name = "form.html"
     form_class = ItemForm
     def get_queryset(self):
         return Item.objects.filter(user=self.request.user)
 
-class ItemUpdateView(UpdateView):
-    form_class = ItemForm
-    def get_queryset(self):
-        return Item.objects.filter(user=self.request.user)
+    def get_context_data(self, *args, **kwargs):
+        context = super(ItemUpdateView, self).get_context_data(*args, **kwargs)
+        context['title'] = 'Update Item'
+        return context
