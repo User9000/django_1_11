@@ -1,11 +1,8 @@
 
-
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-
 from django.db.models import Q
 from django.shortcuts import render, get_object_or_404
-
 from django.http import HttpResponse,HttpResponseRedirect
 from django.views import View
 from django.views.generic import TemplateView, ListView, DetailView, CreateView
@@ -51,11 +48,10 @@ class RestaurantListView(ListView):
         slug = self.kwargs.get('slug')
         if slug:
             queryset = RestaurantLocation.objects.filter(Q(category__iexact = slug) | Q(category__icontains = slug))
-            #print("we did it")
+ 
         else:
-            queryset = RestaurantLocation.objects.all()
-            #print("we did not")
-
+            queryset  = RestaurantLocation.objects.all()
+            
         return queryset
 
 
